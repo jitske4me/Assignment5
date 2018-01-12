@@ -20,6 +20,7 @@ unique_side_b = set()
 
 ## Make empty list to add the data we want to analyze in R to
 conflict_data_Iraq = []
+conflict_data_Iraq_IS = []
 for entry in range(len(conflict_data)):
     
     ## We only want the conflicts in Iraq
@@ -45,11 +46,23 @@ for entry in range(len(conflict_data)):
                                conflict_data[entry]['deaths_a'],
                                conflict_data[entry]['deaths_b']
                                ]]
-
+        
+        if conflict_data[entry]['side_a'] == 'IS' or conflict_data[entry]['side_b'] == 'IS':
+            conflict_data_Iraq_IS += [[conflict_data[entry]['year'], 
+                                       conflict_data[entry]['conflict_name'],
+                                       conflict_data[entry]['side_a'],
+                                       conflict_data[entry]['side_b'],
+                                       #conflict_data[entry]['source_article'],
+                                       conflict_data[entry]['latitude'],
+                                       conflict_data[entry]['longitude'],
+                                       conflict_data[entry]['country'],
+                                       conflict_data[entry]['deaths_a'],
+                                       conflict_data[entry]['deaths_b']
+                                       ]]            
 
 
 ## Open the output CSV file we want to write to
-with open('preprocessed_conflict_data.csv', 'w', newline='') as file:
+with open('preprocessed_conflict_data_Iraq.csv', 'w', newline='') as file:
     csvwriter = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_NONNUMERIC)
     csvwriter.writerow(['year', 
                         'conflict_name', 
@@ -62,6 +75,21 @@ with open('preprocessed_conflict_data.csv', 'w', newline='') as file:
                         'deaths_b'])
     for sublist in range(len(conflict_data_Iraq)):
         csvwriter.writerow(conflict_data_Iraq[sublist])
+ 
+with open('preprocessed_conflict_data_Iraq_IS.csv', 'w', newline='') as file:
+    csvwriter = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_NONNUMERIC)
+    csvwriter.writerow(['year', 
+                        'conflict_name', 
+                        'side_a', 
+                        'side_b', 
+                        'latitude',
+                        'longitude',
+                        'country',
+                        'deaths_a',
+                        'deaths_b'])
+    for sublist in range(len(conflict_data_Iraq_IS)):
+        csvwriter.writerow(conflict_data_Iraq_IS[sublist])
+    
     
     # Actually write the data to the CSV file here.
     # You can use the same csvwriter.writerow command to output the data 
